@@ -18,9 +18,11 @@ import functools
 '''
 Variables
 '''
+root_dir = "./images/Originals/"
 Dog = False
 Jasper = False
-Teasdale = True
+Teasdale = False
+Teasdale2 = True
 
 
 Kandinsky = True
@@ -52,6 +54,9 @@ if Dog:
 elif Teasdale:
     content_path = tf.keras.utils.get_file('teasdale.jpg', 'https://storage.googleapis.com/download.tensorflow.org/example_images/YellowLabradorLooking_new.jpg')
     the_file_root = 'Teasdale'
+elif Teasdale2:
+    content_path = tf.keras.utils.get_file('Teasdale-2.png', 'https://storage.googleapis.com/download.tensorflow.org/example_images/YellowLabradorLooking_new.jpg')
+    the_file_root = 'Teasdale-2'
 elif Jasper:
     content_path = tf.keras.utils.get_file('jasper.jpg', 'https://storage.googleapis.com/download.tensorflow.org/example_images/YellowLabradorLooking_new.jpg')
     the_file_root = 'Jasper'
