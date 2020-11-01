@@ -19,12 +19,13 @@ import functools
 Variables
 '''
 root_dir = "./images/Originals/"
+original_images = ["Dog-1.jpg", "Jasper-1.jpg", "Teasdale-1.jpg", "Teasdale-2.png"]
 Dog = False
 Jasper = False
 Teasdale = False
 Teasdale2 = True
 
-
+original_styles = ["Kandinsky", "Picasso", "VanGogh", "Portrait", "Space"]
 Kandinsky = True
 Picasso = False
 VanGogh = False
