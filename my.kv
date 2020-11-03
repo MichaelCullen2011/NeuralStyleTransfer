@@ -1,4 +1,4 @@
-# Colours
+# Colour Palette
 # 1, 0.61, 0.59, 1
 # 1, 0.70, 0.66, 1
 # 1, 0.78, 0.76, 1
@@ -10,29 +10,33 @@
     color: 1, 1, 1, 1
 
 <CustomButton1@Button>:
+    size_hint: 0.2, 0.2
     font_size: 20
     color: 1, 0.61, 0.59, 1
     background_color: 0.98, 0.79, 0.65, 1
 
 FloatLayout:
     CustomLabel1:
+        id: 'title_label'
         pos_hint: {"x":0.26, "y":0.85}
         size_hint: 0.5, 0.2
         text: 'Neural Style Transfer'
     CustomButton1:
+        id: 'choose_btn'
         pos_hint: {"x":0.1, "y":0.6}
-        size_hint: 0.2, 0.2
         text: 'Choose Image'
     Image:
+        id: 'image_pic'
         pos_hint: {"x":0.4, "y":0.6}
         source: './images/Originals/Dog.jpg'
         size_hint: 0.2, 0.2
         allow_stretch: True
     CustomButton1:
+        id: 'style_btn'
         pos_hint: {"x":0.1, "y":0.3}
-        size_hint: 0.2, 0.2
         text: 'Choose Style'
     Image:
+        id: 'style_pic'
         pos_hint: {"x":0.4, "y":0.3}
         source: './images/Originals/Kandinsky.jpg'
         size_hint: 0.2, 0.2
