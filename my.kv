@@ -1,21 +1,39 @@
-GridLayout:
-    rows: 2
-    cols: 4
-    Button:
-        id: button_one
-    Button:
-        id: button_two
-    Button:
-        id: button_three
-    Button:
-        id: button_four
+# Colours
+# 1, 0.61, 0.59, 1
+# 1, 0.70, 0.66, 1
+# 1, 0.78, 0.76, 1
+# 0.98, 0.85, 0.76, 1
+# 0.98, 0.79, 0.65, 1
 
+<CustomLabel1@Label>:
+    font_size: 25
+    color: 1, 1, 1, 1
 
-    TextInput:
-        text: "one"
-    TextInput:
-        text: "two"
-    TextInput:
-        text: "three"
-    TextInput:
-        text: "four"
+<CustomButton1@Button>:
+    font_size: 20
+    color: 1, 0.61, 0.59, 1
+    background_color: 0.98, 0.79, 0.65, 1
+
+FloatLayout:
+    CustomLabel1:
+        pos_hint: {"x":0.26, "y":0.85}
+        size_hint: 0.5, 0.2
+        text: 'Neural Style Transfer'
+    CustomButton1:
+        pos_hint: {"x":0.1, "y":0.6}
+        size_hint: 0.2, 0.2
+        text: 'Choose Image'
+    Image:
+        pos_hint: {"x":0.4, "y":0.6}
+        source: './images/Originals/Dog.jpg'
+        size_hint: 0.2, 0.2
+        allow_stretch: True
+    CustomButton1:
+        pos_hint: {"x":0.1, "y":0.3}
+        size_hint: 0.2, 0.2
+        text: 'Choose Style'
+    Image:
+        pos_hint: {"x":0.4, "y":0.3}
+        source: './images/Originals/Kandinsky.jpg'
+        size_hint: 0.2, 0.2
+        allow_stretch: True
