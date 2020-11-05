@@ -1,10 +1,3 @@
-# Colour Palette
-# 1, 0.61, 0.59, 1
-# 1, 0.70, 0.66, 1
-# 1, 0.78, 0.76, 1
-# 0.98, 0.85, 0.76, 1
-# 0.98, 0.79, 0.65, 1
-
 <CustomLabel1@Label>:
     font_size: 25
     color: 1, 1, 1, 1
@@ -15,29 +8,152 @@
     color: 1, 0.61, 0.59, 1
     background_color: 0.98, 0.79, 0.65, 1
 
-FloatLayout:
-    CustomLabel1:
-        id: 'title_label'
-        pos_hint: {"x":0.26, "y":0.85}
-        size_hint: 0.5, 0.2
-        text: 'Neural Style Transfer'
-    CustomButton1:
-        id: 'choose_btn'
-        pos_hint: {"x":0.1, "y":0.6}
-        text: 'Choose Image'
-    Image:
-        id: 'image_pic'
-        pos_hint: {"x":0.4, "y":0.6}
-        source: './images/Originals/Dog.jpg'
-        size_hint: 0.2, 0.2
-        allow_stretch: True
-    CustomButton1:
-        id: 'style_btn'
-        pos_hint: {"x":0.1, "y":0.3}
-        text: 'Choose Style'
-    Image:
-        id: 'style_pic'
-        pos_hint: {"x":0.4, "y":0.3}
-        source: './images/Originals/Kandinsky.jpg'
-        size_hint: 0.2, 0.2
-        allow_stretch: True
+<CustomButton2@Button>:
+    size_hint: 0.1, 0.1
+    font_size: 20
+    color: 1, 0.61, 0.59, 1
+    background_color: 0.98, 0.79, 0.65, 1
+
+<RootWidget>:
+    MainScreen:
+        name: 'main'
+    ImageScreen:
+        name: 'image'
+    StyleScreen:
+        name: 'style'
+
+<MainScreen>:
+    name: 'main'
+    FloatLayout:
+        CustomLabel1:
+            id: 'title_label'
+            pos_hint: {"x":0.26, "y":0.85}
+            size_hint: 0.5, 0.2
+            text: 'Neural Style Transfer'
+        CustomButton1:
+            id: 'choose_btn'
+            pos_hint: {"x":0.1, "y":0.6}
+            text: 'Choose Image'
+            on_release:
+                app.root.current = 'image'
+                root.manager.transition.direction = "left"
+        Image:
+            id: 'image_pic'
+            pos_hint: {"x":0.4, "y":0.6}
+            source: app.image_source
+            size_hint: 0.2, 0.2
+            allow_stretch: True
+        CustomButton1:
+            id: 'style_btn'
+            pos_hint: {"x":0.1, "y":0.3}
+            text: 'Choose Style'
+            on_release:
+                app.root.current = 'style'
+                root.manager.transition.direction = "left"
+        CustomButton2:
+            id: 'refresh_btn'
+            pos_hint: {"x":0.85, "y":0.90}
+            text: 'Refresh'
+            on_press: app.refresh()
+        Image:
+            id: 'style_pic'
+            pos_hint: {"x":0.4, "y":0.3}
+            source: app.style_source
+            size_hint: 0.2, 0.2
+            allow_stretch: True
+
+<ImageScreen>:
+    text_input: 'image'
+    FloatLayout:
+        CustomLabel1:
+            id: 'title_label'
+            pos_hint: {"x":0.26, "y":0.85}
+            size_hint: 0.5, 0.2
+            text: 'Neural Style Transfer'
+        FileChooserIconView:
+            id: 'image_chooser'
+            pos_hint: {"x":0, "y":-0.1}
+            path: '/Users/micha/PycharmProjects/NeuralStyleTransfer/images/Originals/Images'
+            on_selection:
+                text_input.text = self.selection[0] or ''
+                image_pic.source = self.selection[0] or ''
+                app.choose_image(text_input.text)
+        CustomButton2:
+            id: 'submit_btn'
+            pos_hint: {"x":0.85, "y":0.20}
+            text: 'Submit'
+            on_press:
+                app.root.current = 'main'
+                root.manager.transition.direction = "right"
+        CustomButton2:
+            id: 'return_btn'
+            pos_hint: {"x":0.85, "y":0.05}
+            text: 'Return'
+            on_press:
+                app.root.current = 'main'
+                root.manager.transition.direction = "right"
+        Image:
+            id: image_pic
+            pos_hint: {"x":0.3, "y":0.2}
+            source: text_input.text
+            size_hint: 0.4, 0.4
+            allow_stretch: True
+        CustomLabel1:
+            id: 'file_path_label'
+            pos_hint: {"x":0.26, "y":0}
+            size_hint: 0.5, 0.2
+            text: 'File Path:'
+        TextInput:
+            text: 'D:/Users/micha/PycharmProjects/NeuralStyleTransfer/images/Originals/Images/Dog.jpg'
+            id: text_input
+            size_hint_y: None
+            height: 30
+            multiline: False
+
+<StyleScreen>:
+    name: 'style'
+    FloatLayout:
+        CustomLabel1:
+            id: 'title_label'
+            pos_hint: {"x":0.26, "y":0.85}
+            size_hint: 0.5, 0.2
+            text: 'Neural Style Transfer'
+        FileChooserIconView:
+            id: 'style_chooser'
+            pos_hint: {"x":0, "y":-0.1}
+            path: '/Users/micha/PycharmProjects/NeuralStyleTransfer/images/Originals/Styles'
+            on_selection:
+                text_input.text = self.selection[0] or ''
+                style_pic.source = text_input.text
+        CustomButton2:
+            id: 'submit_btn'
+            pos_hint: {"x":0.85, "y":0.20}
+            text: 'Submit'
+            on_press:
+                app.choose_style(text_input.text)
+                app.root.current = 'main'
+                root.manager.transition.direction = "right"
+        CustomButton2:
+            id: 'return_btn'
+            pos_hint: {"x":0.85, "y":0.05}
+            text: 'Return'
+            on_press:
+                app.root.current = 'main'
+                root.manager.transition.direction = "right"
+        Image:
+            id: style_pic
+            pos_hint: {"x":0.3, "y":0.2}
+            source: text_input.text
+            size_hint: 0.4, 0.4
+            allow_stretch: True
+        CustomLabel1:
+            id: 'file_path_label'
+            pos_hint: {"x":0.26, "y":0}
+            size_hint: 0.5, 0.2
+            text: 'File Path:'
+        TextInput:
+            text: 'D:/Users/micha/PycharmProjects/NeuralStyleTransfer/images/Originals/Styles/Kandinsky.jpg'
+            id: text_input
+            size_hint_y: None
+            height: 30
+            multiline: False

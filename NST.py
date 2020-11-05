@@ -23,9 +23,9 @@ Logic and Important Variables
 epochs = 2
 steps_per_epoch = 100
 
-Train = True
-Display = True
-Save = True
+Train = False
+Display = False
+Save = False
 
 
 '''
@@ -155,8 +155,8 @@ if Train:
     #     style_image_set.append(load_img(style))
 
     if len(image_to_use) and len(style_to_use) == 1:
-        content_image = load_img(originals_dir + image_to_use[0] + image_extension)
-        style_image = load_img(originals_dir + style_to_use[0] + image_extension)
+        content_image = load_img(originals_dir + '/Images/' + image_to_use[0] + image_extension)
+        style_image = load_img(originals_dir + '/Styles/' + style_to_use[0] + image_extension)
         plt.subplot(1, 2, 1)
         show_image(content_image, 'Content Image')
         plt.subplot(1, 2, 2)
