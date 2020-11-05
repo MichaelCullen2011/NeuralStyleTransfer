@@ -16,11 +16,8 @@
 
 <RootWidget>:
     MainScreen:
-        name: 'main'
     ImageScreen:
-        name: 'image'
     StyleScreen:
-        name: 'style'
 
 <MainScreen>:
     name: 'main'
@@ -32,38 +29,48 @@
             text: 'Neural Style Transfer'
         CustomButton1:
             id: 'choose_btn'
-            pos_hint: {"x":0.1, "y":0.6}
+            pos_hint: {"x":0.05, "y":0.57}
             text: 'Choose Image'
             on_release:
                 app.root.current = 'image'
                 root.manager.transition.direction = "left"
         Image:
             id: 'image_pic'
-            pos_hint: {"x":0.4, "y":0.6}
+            pos_hint: {"x":0.35, "y":0.5}
             source: app.image_source
-            size_hint: 0.2, 0.2
+            size_hint: 0.3, 0.3
             allow_stretch: True
         CustomButton1:
             id: 'style_btn'
-            pos_hint: {"x":0.1, "y":0.3}
+            pos_hint: {"x":0.05, "y":0.15}
             text: 'Choose Style'
             on_release:
                 app.root.current = 'style'
                 root.manager.transition.direction = "left"
         CustomButton2:
             id: 'refresh_btn'
-            pos_hint: {"x":0.85, "y":0.90}
+            pos_hint: {"x":0.85, "y":0.85}
             text: 'Refresh'
-            on_press: app.refresh()
+            on_release: app.refresh()
+        CustomButton2:
+            id: 'run_btn'
+            pos_hint: {"x":0.85, "y":0.15}
+            text: 'Run'
+            on_release: app.setup_program()
         Image:
             id: 'style_pic'
-            pos_hint: {"x":0.4, "y":0.3}
+            pos_hint: {"x":0.35, "y":0.1}
             source: app.style_source
-            size_hint: 0.2, 0.2
+            size_hint: 0.3, 0.3
             allow_stretch: True
 
 <ImageScreen>:
-    text_input: 'image'
+    name: 'image'
+    canvas:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    text_input: ''
     FloatLayout:
         CustomLabel1:
             id: 'title_label'
@@ -112,6 +119,10 @@
 
 <StyleScreen>:
     name: 'style'
+    canvas:
+        Rectangle:
+            pos: self.pos
+            size: self.size
     FloatLayout:
         CustomLabel1:
             id: 'title_label'
