@@ -7,6 +7,7 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.properties import ListProperty, StringProperty
 from kivy.clock import Clock
 import os
+import threading
 import NST
 
 Builder.load_file("my.kv")
@@ -75,7 +76,8 @@ class MyApp(App):
         print("From Kivy, image to use: ", NST.image_to_use)
         print("From Kivy, style to use: ", NST.style_to_use)
         NST.running, NST.Train, NST.Display, NST.Save = True, True, True, True
-        NST.run_nst()
+        threading.Thread(target=NST.run_nst).start()
+        #NST.run_nst()
 
     def build(self):
         return RootWidget()
