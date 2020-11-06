@@ -2,6 +2,8 @@ from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.properties import StringProperty
+from kivy.core.window import Window
+from shutil import copyfile
 import threading
 import NST
 
@@ -13,7 +15,6 @@ class MainScreen(Screen):
     style_source = StringProperty('./images/Originals/Styles/Kandinsky.jpg')
     image_name = 'Dog.jpg'
     style_name = 'Kandinsky.jpg'
-    gen_image = StringProperty('./images/Generated/{}-{}.jpg'.format(NST.image_to_use[0], NST.style_to_use[0])) #FIX THIS
 
     def __init__(self, **kwargs):
         super(MainScreen, self).__init__(**kwargs)
@@ -36,6 +37,27 @@ class ShowScreen(Screen):
         super(ShowScreen, self).__init__(**kwargs)
 
 
+class DragDropWindow(Screen):
+    drop_file = StringProperty('')
+
+    def __init__(self, **kwargs):
+        super(DragDropWindow, self).__init__(**kwargs)
+        Window.bind(on_dropfile=self._on_file_drop)
+
+    def _on_file_drop(self, window, file_path):
+        self.drop_file = file_path.decode("utf-8")  # convert byte to string
+        self.ids.drop_pic.source = self.drop_file
+        self.ids.drop_pic.reload()  # reload image
+        edited_drop_file = ''
+        last_indexed_slash = self.drop_file.rfind("\\")
+        last_indexed_dot = self.drop_file.rfind(".")
+        drop_file_dir = self.drop_file
+        edited_drop_file = self.drop_file[last_indexed_slash:last_indexed_dot]
+        copyfile(drop_file_dir, './images/Originals/Images/' + edited_drop_file + '.jpg')
+        # print("drop_file: ", self.drop_file)
+        # print("edited drop_file: ", edited_drop_file)
+
+
 class RootWidget(ScreenManager):
     pass
 
@@ -48,7 +70,8 @@ class MyApp(App):
     style_source = StringProperty('./images/Originals/Styles/Kandinsky.jpg')
     image_name = 'Dog.jpg'
     style_name = 'Kandinsky.jpg'
-    gen_image = StringProperty('./images/Generated/{}-{}.jpg'.format(NST.image_to_use[0], NST.style_to_use[0]))     #FIX THIS
+    gen_image = StringProperty('./images/Generated/{}-{}.jpg'.format(NST.image_to_use[0], NST.style_to_use[0]))
+    drop_file = StringProperty('')
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -87,6 +110,8 @@ class MyApp(App):
         NST.running, NST.Train, NST.Save = True, True, True
         nst_thread = threading.Thread(target=NST.run_nst)
         nst_thread.start()
+        self.gen_image = './images/Generated/{}-{}.jpg'.format(NST.image_to_use[0], NST.style_to_use[0])
+        gen_image = self.gen_image
 
     def build(self):
         return RootWidget()

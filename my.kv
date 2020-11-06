@@ -14,12 +14,19 @@
     color: 1, 0.61, 0.59, 1
     background_color: 0.98, 0.79, 0.65, 1
 
+<CustomButton3@Button>:
+    size_hint: 0.15, 0.15
+    font_size: 20
+    color: 1, 0.61, 0.59, 1
+    background_color: 0.98, 0.79, 0.65, 1
+
 <RootWidget>:
     MainScreen:
     ImageScreen:
     StyleScreen:
     TrainScreen:
     ShowScreen:
+    DragDropWindow:
 
 <MainScreen>:
     name: 'main'
@@ -90,6 +97,13 @@
                 text_input.text = self.selection[0] or ''
                 image_pic.source = self.selection[0] or ''
                 app.choose_image(text_input.text)
+        CustomButton3:
+            id: 'drop_btn'
+            pos_hint: {"x":0.05, "y":0.40}
+            text: 'Drop File'
+            on_press:
+                app.root.current = 'drag_drop'
+                root.manager.transition.direction = "up"
         CustomButton2:
             id: 'submit_btn'
             pos_hint: {"x":0.85, "y":0.20}
@@ -241,6 +255,33 @@
             source: app.style_source
             size_hint: 0.3, 0.3
             allow_stretch: True
+        CustomButton2:
+            id: 'train_return_btn'
+            pos_hint: {"x":0.85, "y":0.05}
+            text: 'Return'
+            on_press:
+                app.root.current = 'main'
+                root.manager.transition.direction = "down"
+
+<DragDropWindow>:
+    name: 'drag_drop'
+    FloatLayout:
+        CustomLabel1:
+            id: 'title_label'
+            pos_hint: {"x":0.26, "y":0.85}
+            size_hint: 0.5, 0.2
+            text: 'Neural Style Transfer - Drag-Drop File'
+        Image:
+            id: drop_pic
+            pos_hint: {"x":0.1, "y":0.1}
+            source: 'black.jpg'
+            size_hint: 0.8, 0.8
+            allow_stretch: True
+        CustomLabel1:
+            id: 'drop_label'
+            pos_hint: {"x":0.1, "y":0.1}
+            size_hint: 0.8, 0.8
+            text: 'Drop File Here'
         CustomButton2:
             id: 'train_return_btn'
             pos_hint: {"x":0.85, "y":0.05}
