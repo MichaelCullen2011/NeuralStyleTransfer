@@ -7,14 +7,11 @@ import tensorflow_hub as hub
 import IPython.display as display
 import matplotlib.pyplot as plt
 import matplotlib as mpl
-mpl.rcParams['figure.figsize'] = (12, 12)
-mpl.rcParams['axes.grid'] = False
 import numpy as np
 import PIL.Image
-from PIL import Image
 import time
-import os
-import functools
+mpl.rcParams['figure.figsize'] = (12, 12)
+mpl.rcParams['axes.grid'] = False
 
 
 '''
@@ -24,11 +21,10 @@ epochs = 2
 steps_per_epoch = 100
 
 Train = False
-Display = False
 Save = False
 
-image_to_use = []
-style_to_use = []
+image_to_use = ['Dog']
+style_to_use = ['Kandinsky']
 
 
 def run_nst():
@@ -58,18 +54,18 @@ def run_nst():
     logic_count = 0
     for image in image_logic:
         if image:
-            image_to_use.append(str(image_name[logic_count]))
+            image_to_use = str(image_name[logic_count])
         logic_count += 1
 
     logic_count = 0
     for style in style_logic:
         if style:
-            style_to_use.append(str(style_name[logic_count]))
+            style_to_use = str(style_name[logic_count])
         logic_count += 1
 
-    print("From NST, image to use: ", image_to_use)
-    print("From NST, style to use: ", style_to_use)
-    print(Train, Display, Save)
+    # print("From NST, image to use: ", image_to_use)
+    # print("From NST, style to use: ", style_to_use)
+    # print(Train, Display, Save)
 
     def tensor_to_image(tensor):
         tensor = tensor * 255
@@ -108,7 +104,7 @@ def run_nst():
         plt.imshow(image)
         if title:
             plt.title(title)
-
+    print("FROM NST", image_to_use, style_to_use)
     '''
     TRAINING SECTION
     '''
@@ -131,7 +127,7 @@ def run_nst():
 
         if len(image_to_use) and len(style_to_use) == 1:
             content_image = load_img(originals_dir + '/Images/' + image_to_use[0] + image_extension)
-            print(originals_dir + '/Images/' + image_to_use[0] + image_extension)
+            # print(originals_dir + '/Images/' + image_to_use[0] + image_extension)
             style_image = load_img(originals_dir + '/Styles/' + style_to_use[0] + image_extension)
             # plt.subplot(1, 2, 1)
             # show_image(content_image, 'Content Image')
@@ -352,25 +348,10 @@ def run_nst():
     '''
     generated_dir = './images/Generated/'
     if Save:
-        print("SAVING")
+        # print("SAVING")
         file_name = '{}-{}.jpg'.format(image_to_use[0], style_to_use[0])
-        print(file_name)
+        # print(file_name)
         tensor_to_image(image).save(generated_dir + file_name)
-        #     from google.colab import files
-        # except ImportError:
-        #     pass
-        # else:
-        #     files.download(file_name)
 
-    '''
-    Display the Results
-    '''
-    if Display:
-        print("DISPLAYING")
-        print(generated_dir + file_name)
-        img = load_img(generated_dir + file_name)
-        show_image(img, 'Generated Image - {}-{}'.format(image_to_use[0], style_to_use[0]))
-        plt.show()
-        print("IMAGE SHOWN")
 
 

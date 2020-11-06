@@ -18,6 +18,8 @@
     MainScreen:
     ImageScreen:
     StyleScreen:
+    TrainScreen:
+    ShowScreen:
 
 <MainScreen>:
     name: 'main'
@@ -56,7 +58,10 @@
             id: 'run_btn'
             pos_hint: {"x":0.85, "y":0.15}
             text: 'Run'
-            on_release: app.setup_program()
+            on_release:
+                app.setup_program()
+                app.root.current = 'train'
+                root.manager.transition.direction = "up"
         Image:
             id: 'style_pic'
             pos_hint: {"x":0.35, "y":0.1}
@@ -168,3 +173,78 @@
             size_hint_y: None
             height: 30
             multiline: False
+
+<TrainScreen>:
+    name: 'train'
+    FloatLayout:
+        CustomLabel1:
+            id: 'title_label'
+            pos_hint: {"x":0.26, "y":0.85}
+            size_hint: 0.5, 0.2
+            text: 'Neural Style Transfer - Training'
+        Image:
+            id: 'image_pic'
+            pos_hint: {"x":0.35, "y":0.55}
+            source: app.image_source
+            size_hint: 0.3, 0.3
+            allow_stretch: True
+        Image:
+            id: 'loading_wheel'
+            pos_hint: {"x":0.47, "y":0.4}
+            source: './images/loadingwheel.gif'
+            size_hint: 0.05, 0.05
+            allow_stretch: True
+        Image:
+            id: 'style_pic'
+            pos_hint: {"x":0.35, "y":0.05}
+            source: app.style_source
+            size_hint: 0.3, 0.3
+            allow_stretch: True
+        CustomButton2:
+            id: 'train_return_btn'
+            pos_hint: {"x":0.85, "y":0.05}
+            text: 'Return'
+            on_press:
+                app.root.current = 'main'
+                root.manager.transition.direction = "down"
+        CustomButton2:
+            id: 'show_gen_btn'
+            pos_hint: {"x":0.85, "y":0.85}
+            text: 'Show'
+            on_press:
+                app.root.current = 'show'
+                root.manager.transition.direction = "up"
+
+<ShowScreen>:
+    name: 'show'
+    FloatLayout:
+        CustomLabel1:
+            id: 'title_label'
+            pos_hint: {"x":0.26, "y":0.85}
+            size_hint: 0.5, 0.2
+            text: 'Neural Style Transfer - Generated Image'
+        Image:
+            id: 'image_pic'
+            pos_hint: {"x":0.25, "y":0.55}
+            source: app.image_source
+            size_hint: 0.3, 0.3
+            allow_stretch: True
+        Image:
+            id: 'gen_image'
+            pos_hint: {"x":0.6, "y":0.4}
+            source: app.gen_image
+            size_hint: 0.3, 0.3
+            allow_stretch: True
+        Image:
+            id: 'style_pic'
+            pos_hint: {"x":0.25, "y":0.05}
+            source: app.style_source
+            size_hint: 0.3, 0.3
+            allow_stretch: True
+        CustomButton2:
+            id: 'train_return_btn'
+            pos_hint: {"x":0.85, "y":0.05}
+            text: 'Return'
+            on_press:
+                app.root.current = 'main'
+                root.manager.transition.direction = "down"

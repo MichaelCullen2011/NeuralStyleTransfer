@@ -1,12 +1,7 @@
-import kivy
 from kivy.app import App
-from kivy.uix.label import Label
 from kivy.lang import Builder
-from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.screenmanager import ScreenManager, Screen
-from kivy.properties import ListProperty, StringProperty
-from kivy.clock import Clock
-import os
+from kivy.properties import StringProperty
 import threading
 import NST
 
@@ -18,6 +13,7 @@ class MainScreen(Screen):
     style_source = StringProperty('./images/Originals/Styles/Kandinsky.jpg')
     image_name = 'Dog.jpg'
     style_name = 'Kandinsky.jpg'
+    gen_image = StringProperty('./images/Generated/{}-{}.jpg'.format(NST.image_to_use[0], NST.style_to_use[0])) #FIX THIS
 
     def __init__(self, **kwargs):
         super(MainScreen, self).__init__(**kwargs)
@@ -31,6 +27,15 @@ class StyleScreen(Screen):
     pass
 
 
+class TrainScreen(Screen):
+    pass
+
+
+class ShowScreen(Screen):
+    def __init__(self, **kwargs):
+        super(ShowScreen, self).__init__(**kwargs)
+
+
 class RootWidget(ScreenManager):
     pass
 
@@ -41,13 +46,15 @@ sm = ScreenManager()
 class MyApp(App):
     image_source = StringProperty('./images/Originals/Images/Dog.jpg')
     style_source = StringProperty('./images/Originals/Styles/Kandinsky.jpg')
+    image_name = 'Dog.jpg'
+    style_name = 'Kandinsky.jpg'
+    gen_image = StringProperty('./images/Generated/{}-{}.jpg'.format(NST.image_to_use[0], NST.style_to_use[0]))     #FIX THIS
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         sm.add_widget(MainScreen(name='main'))
         sm.add_widget(ImageScreen(name='image'))
         sm.add_widget(StyleScreen(name='style'))
-        print(MainScreen.image_name, MainScreen.style_name)
 
     def choose_image(self, filename):
         file = filename[75:]
@@ -55,6 +62,7 @@ class MyApp(App):
         MainScreen.image_source = filename
         MainScreen.image_name = file
         self.image_source = filename
+        self.image_name = file
 
     def choose_style(self, filename):
         file = filename[75:]
@@ -62,6 +70,7 @@ class MyApp(App):
         MainScreen.style_source = filename
         MainScreen.style_name = file
         self.style_source = filename
+        self.style_name = file
 
     def refresh(self):
         MyApp()
@@ -73,11 +82,11 @@ class MyApp(App):
         style_name = MainScreen.style_name[:-4]
         NST.image_to_use = [image_name]
         NST.style_to_use = [style_name]
-        print("From Kivy, image to use: ", NST.image_to_use)
-        print("From Kivy, style to use: ", NST.style_to_use)
-        NST.running, NST.Train, NST.Display, NST.Save = True, True, True, True
-        threading.Thread(target=NST.run_nst).start()
-        #NST.run_nst()
+        # print("From Kivy, image to use: ", NST.image_to_use)
+        # print("From Kivy, style to use: ", NST.style_to_use)
+        NST.running, NST.Train, NST.Save = True, True, True
+        nst_thread = threading.Thread(target=NST.run_nst)
+        nst_thread.start()
 
     def build(self):
         return RootWidget()
