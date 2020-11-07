@@ -272,7 +272,7 @@
             size_hint: 0.5, 0.2
             text: 'Neural Style Transfer - Drag-Drop File'
         Image:
-            id: drop_pic
+            id: black_pic
             pos_hint: {"x":0.1, "y":0.1}
             source: 'black.jpg'
             size_hint: 0.8, 0.8
@@ -287,5 +287,10 @@
             pos_hint: {"x":0.85, "y":0.05}
             text: 'Return'
             on_press:
-                app.root.current = 'main'
+                app.root.current = 'image'
                 root.manager.transition.direction = "down"
+        Image:
+            id: drop_pic
+            pos_hint: {"x":0.1, "y":0.1}
+            size_hint: 0.8, 0.8
+            allow_stretch: True

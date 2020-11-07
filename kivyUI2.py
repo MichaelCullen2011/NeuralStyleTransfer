@@ -18,6 +18,8 @@ class MainScreen(Screen):
 
     def __init__(self, **kwargs):
         super(MainScreen, self).__init__(**kwargs)
+        print(self.image_source, self.image_name)
+        print(self.style_source, self.style_name)
 
 
 class ImageScreen(Screen):
@@ -48,12 +50,16 @@ class DragDropWindow(Screen):
         self.drop_file = file_path.decode("utf-8")  # convert byte to string
         self.ids.drop_pic.source = self.drop_file
         self.ids.drop_pic.reload()  # reload image
-        edited_drop_file = ''
-        last_indexed_slash = self.drop_file.rfind("\\")
-        last_indexed_dot = self.drop_file.rfind(".")
+        copied_dir, edited_drop_file = MyApp.edit_dir(self, filepath=self.drop_file)
         drop_file_dir = self.drop_file
-        edited_drop_file = self.drop_file[last_indexed_slash:last_indexed_dot]
-        copyfile(drop_file_dir, './images/Originals/Images/' + edited_drop_file + '.jpg')
+        print("Edited")
+        edited_drop_file = edited_drop_file + '.jpg'
+        copied_dir = './images/Originals/Images/' + edited_drop_file
+        copyfile(drop_file_dir, copied_dir)
+        print("Copied")
+        MainScreen.image_source, MyApp.image_source = StringProperty(copied_dir), StringProperty(copied_dir)
+        MainScreen.image_name, MyApp.image_name = StringProperty(edited_drop_file), StringProperty(edited_drop_file)
+        print("Variables Changed")
         # print("drop_file: ", self.drop_file)
         # print("edited drop_file: ", edited_drop_file)
 
@@ -79,17 +85,28 @@ class MyApp(App):
         sm.add_widget(ImageScreen(name='image'))
         sm.add_widget(StyleScreen(name='style'))
 
+    def edit_dir(self, filepath):
+        last_indexed_slash = filepath.rfind("\\")
+        last_indexed_dot = filepath.rfind(".")
+        filename = filepath
+        file = filepath[last_indexed_slash:last_indexed_dot]
+        return filename, file
+
     def choose_image(self, filename):
-        file = filename[75:]
-        filename = './images/Originals/Images/' + filename[75:]
+        filename, file = MyApp.edit_dir(self, filepath=filename)
+        file = file + '.jpg'
+        filename = './images/Originals/Images/' + file
+        print(filename, file)
+        print(filename, file)
         MainScreen.image_source = filename
         MainScreen.image_name = file
         self.image_source = filename
         self.image_name = file
 
     def choose_style(self, filename):
-        file = filename[75:]
-        filename = './images/Originals/Styles/' + filename[75:]
+        filename, file = MyApp.edit_dir(self, filepath=filename)
+        file = file + '.jpg'
+        filename = './images/Originals/Styles/' + file
         MainScreen.style_source = filename
         MainScreen.style_name = file
         self.style_source = filename
