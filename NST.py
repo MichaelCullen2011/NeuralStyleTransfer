@@ -17,11 +17,12 @@ mpl.rcParams['axes.grid'] = False
 '''
 Logic and Important Variables
 '''
-epochs = 2
+epochs = 1
 steps_per_epoch = 100
 
 Train = False
 Save = False
+Show = False
 
 image_to_use = ['Dog']
 style_to_use = ['Kandinsky']
@@ -104,10 +105,11 @@ def run_nst():
         plt.imshow(image)
         if title:
             plt.title(title)
-    print("FROM NST", image_to_use, style_to_use)
+    print("From NST", '{}-{}.jpg'.format(image_to_use[0], style_to_use[0]))
     '''
     TRAINING SECTION
     '''
+
     if Train:
         print("Training")
         '''
@@ -348,10 +350,12 @@ def run_nst():
     '''
     generated_dir = './images/Generated/'
     if Save:
+        global Show
         # print("SAVING")
         file_name = '{}-{}.jpg'.format(image_to_use[0], style_to_use[0])
-        # print(file_name)
+        print(file_name)
         tensor_to_image(image).save(generated_dir + file_name)
+        Show = True
 
 
 

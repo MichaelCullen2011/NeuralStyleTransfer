@@ -14,6 +14,14 @@
     color: 1, 0.61, 0.59, 1
     background_color: 0.98, 0.79, 0.65, 1
 
+<ShowButton@Button>:
+    id: show_btn
+    size_hint: 0.1, 0.1
+    font_size: 20
+    color: 1, 0.61, 0.59, 1
+    background_color: 0.98, 0.79, 0.65, 1
+    disabled: True
+
 <CustomButton3@Button>:
     size_hint: 0.15, 0.15
     font_size: 20
@@ -221,8 +229,8 @@
             on_press:
                 app.root.current = 'main'
                 root.manager.transition.direction = "down"
-        CustomButton2:
-            id: 'show_gen_btn'
+        ShowButton:
+            id: show_btn
             pos_hint: {"x":0.85, "y":0.85}
             text: 'Show'
             on_press:

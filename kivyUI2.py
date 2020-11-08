@@ -31,7 +31,10 @@ class StyleScreen(Screen):
 
 
 class TrainScreen(Screen):
-    pass
+    def __init__(self, **kwargs):
+        super(TrainScreen, self).__init__(**kwargs)
+        # if NST.Show:
+        #     self.ids.show_btn.disabled = False
 
 
 class ShowScreen(Screen):
@@ -89,7 +92,7 @@ class MyApp(App):
         last_indexed_slash = filepath.rfind("\\")
         last_indexed_dot = filepath.rfind(".")
         filename = filepath
-        file = filepath[last_indexed_slash:last_indexed_dot]
+        file = filepath[last_indexed_slash + 1:last_indexed_dot]
         return filename, file
 
     def choose_image(self, filename):
@@ -128,7 +131,9 @@ class MyApp(App):
         nst_thread = threading.Thread(target=NST.run_nst)
         nst_thread.start()
         self.gen_image = './images/Generated/{}-{}.jpg'.format(NST.image_to_use[0], NST.style_to_use[0])
+        # print("From KIVY", '{}-{}.jpg'.format(NST.image_to_use[0], NST.style_to_use[0]))
         gen_image = self.gen_image
+        TrainScreen()
 
     def build(self):
         return RootWidget()
