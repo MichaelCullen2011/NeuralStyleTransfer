@@ -1,9 +1,7 @@
+
 '''
 Neural Style Transfer   -   Drawing images in the style of another image
 '''
-
-import tensorflow as tf
-import tensorflow_hub as hub
 import IPython.display as display
 import matplotlib.pyplot as plt
 import matplotlib as mpl
@@ -29,7 +27,11 @@ style_to_use = ['Kandinsky']
 
 
 def run_nst():
+    import tensorflow as tf
+    import tensorflow_hub as hub
+
     global Train, Display, Save, epochs, steps_per_epoch, image_to_use, style_to_use
+
     '''
     Variables
     '''
@@ -143,7 +145,7 @@ def run_nst():
         Fast Style Transfer (using tensorflow-hub)
         '''
 
-        hub_module = hub.load('https://tfhub.dev/google/magenta/arbitrary-image-stylization-v1-256/1')
+        hub_module = hub.load('https://tfhub.dev/google/magenta/arbitrary-image-stylization-v1-256/2')
         stylised_image = hub_module(tf.constant(content_image), tf.constant(style_image))[0]
         # tensor_to_image(stylised_image).save('images/dog_fast_style.png')
 

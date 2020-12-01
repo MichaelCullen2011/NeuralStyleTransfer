@@ -5,6 +5,7 @@ from kivy.properties import StringProperty
 from kivy.core.window import Window
 from shutil import copyfile
 import threading
+import os
 import NST
 
 Builder.load_file("my.kv")
@@ -59,6 +60,9 @@ class DragDropWindow(Screen):
         edited_drop_file = edited_drop_file + '.jpg'
         copied_dir = './images/Originals/Images/' + edited_drop_file
         copyfile(drop_file_dir, copied_dir)
+        dragged_file = open(copied_dir, 'r')
+        dragged_file.flush()
+        dragged_file.close()
         print("Copied")
         MainScreen.image_source, MyApp.image_source = StringProperty(copied_dir), StringProperty(copied_dir)
         MainScreen.image_name, MyApp.image_name = StringProperty(edited_drop_file), StringProperty(edited_drop_file)
